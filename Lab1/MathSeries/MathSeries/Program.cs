@@ -35,11 +35,11 @@ namespace MathSeries
                 gotoxy(Console.WindowTop+80,Console.WindowLeft+9);
                 System.Console.Write("                   ");                
                 gotoxy(Console.WindowTop + 80, Console.WindowLeft + 10);
-                System.Console.Write(String.Format("{0,7:0.0000}", calculateSeriesSum(values)));
+                System.Console.Write(String.Format("{0,7:0.0000}", calculateSequencesSum(values)));
                 gotoxy(currentValueCursorLeft, currentValueCursorTop);
                 Console.BackgroundColor = GetRandomConsoleColor();
                 Console.ForegroundColor = GetRandomConsoleColor();
-                System.Console.Write(String.Format("{0,7:0.0000}", calculateSeriesValue(a, n)));
+                System.Console.Write(String.Format("{0,7:0.0000}", calculateSequenceValue(n)));
                 Console.ResetColor();
                 System.Console.Write("\n");
                 
@@ -52,7 +52,7 @@ namespace MathSeries
 
         /*
         ***************************************************************************       
-        * Name: double calculateSeriesValue(double a,double n)
+        * Name: double calculateSequenceValue(double a,double n)
         * Description: Function calculating value of the sequence's term
         * Arguments: n - number of term to calculate 
         * Returns: calculated value in form of double type variable
@@ -62,7 +62,7 @@ namespace MathSeries
         ***************************************************************************
         */
 
-        private static double calculateSeriesValue(double n)
+        private static double calculateSequenceValue(double n)
         {
             double value = Math.Pow(-1, n - 1) / ((2 * n) - 1);
             values.Add(value);
@@ -71,7 +71,7 @@ namespace MathSeries
 
         /*
         ***************************************************************************       
-        * Name: double calculateSeriesSum(List<double> inputValues)
+        * Name: double calculateSequencesSum(List<double> inputValues)
         * Description: Function calculating sum of the sequence
         * Arguments: inputValues - List of already calculated sequence terms
         * Returns: calculated sum in form of double type variable
@@ -81,7 +81,7 @@ namespace MathSeries
         ***************************************************************************
         */
 
-        private static double calculateSeriesSum(List<double> inputValues)
+        private static double calculateSequencesSum(List<double> inputValues)
         {
             if (inputValues.Count > 0)
             {
