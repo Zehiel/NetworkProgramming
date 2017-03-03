@@ -16,5 +16,20 @@ namespace EchoClient
         {
             InitializeComponent();
         }
+
+        private void connectButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void disconnectButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void sendButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
