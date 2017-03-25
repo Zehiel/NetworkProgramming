@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System;
-using System.Net;
 using System.Net.Sockets;
-using System.Threading;
+using System.Security;
 using System.Text;
+using System.Windows.Forms;
+
 
 namespace EchoClient
 {
     public partial class Form1 : Form
     {
-        EchoClient client;
+        TCPClient client;
         public Form1()
         {
             InitializeComponent();
@@ -25,11 +17,56 @@ namespace EchoClient
 
         private void connectButton_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (IPInputBox.Text == "")
+                {
+                    throw new ArgumentNullException();
+                }
+                else if (portInputBox.Text == "")
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
 
-            client = new EchoClient(IPInputBox.Text, Int32.Parse(portInputBox.Text));
-            connectButton.Enabled = false;
-            disconnectButton.Enabled = true;
-            sendButton.Enabled = true;      
+                client = new TCPClient(IPInputBox.Text, Int32.Parse(portInputBox.Text));
+                connectButton.Enabled = false;
+                disconnectButton.Enabled = true;
+                sendButton.Enabled = true;
+            }
+            catch (ArgumentNullException) {
+                consoleBox.AppendText("ERROR:No address typed in!");
+                consoleBox.AppendText(Environment.NewLine);
+            }
+            catch (ArgumentOutOfRangeException) {
+                consoleBox.AppendText("ERROR:Incorrect port number");
+                consoleBox.AppendText(Environment.NewLine);
+            }
+            catch (SocketException exc)
+            {
+                consoleBox.AppendText("ERROR:Couldn't access socket! " + exc.Message);
+                consoleBox.AppendText(Environment.NewLine);
+            }
+            catch (ObjectDisposedException)
+            {
+                consoleBox.AppendText("ERROR:Socket has been closed!");
+                consoleBox.AppendText(Environment.NewLine);
+            }
+            catch (NotSupportedException)
+            {
+                consoleBox.AppendText("ERROR:Wrong address type, please use IPv4 or IPv6 address!");
+                consoleBox.AppendText(Environment.NewLine);
+            }
+            catch (ArgumentException)
+            {
+                consoleBox.AppendText("ERROR:Incorrect address!");
+                consoleBox.AppendText(Environment.NewLine);
+            }
+            catch (InvalidOperationException)
+            {
+                consoleBox.AppendText("ERROR:Socket is in listener mode!");
+                consoleBox.AppendText(Environment.NewLine);
+            }
+             
 
         }
 
@@ -37,232 +74,54 @@ namespace EchoClient
         {
             connectButton.Enabled = true;
             disconnectButton.Enabled = false;
-            sendButton.Enabled = false;
+            sendButton.Enabled = false;           
             client.Release();
-        }
-
-        private void sendButton_Click(object sender, EventArgs e)
-        {
-            consoleBox.AppendText("Sent to the server:" + msgInputBox.Text);
+            consoleBox.AppendText("Disconnected from the server");
             consoleBox.AppendText(Environment.NewLine);
-            consoleBox.AppendText("Recived from server:" + client.SendMSG(msgInputBox.Text));
-            consoleBox.AppendText(Environment.NewLine);
-            msgInputBox.Clear();
+        }
+
+        private async void sendButton_Click(object sender, EventArgs e)
+        {
             
-        }
-    }
-
-    public class StateObject
-    {
-        // Client socket.  
-        public Socket workSocket = null;
-        // Size of receive buffer.  
-        public const int BufferSize = 256;
-        // Receive buffer.  
-        public byte[] buffer = new byte[BufferSize];
-        // Received data string.  
-        public StringBuilder sb = new StringBuilder();
-    }
-
-    public class EchoClient
-    {
-        // The port number for the remote  
-        private int port;
-        // The host for the remote
-        private String host;
-        private Socket client;
-
-        // ManualResetEvent instances signal completion.  
-        private static ManualResetEvent connectDone =
-            new ManualResetEvent(false);
-        private static ManualResetEvent sendDone =
-            new ManualResetEvent(false);
-        private static ManualResetEvent receiveDone =
-            new ManualResetEvent(false);
-
-        // The response from the remote device.  
-        private static String response = String.Empty;
-
-        public EchoClient(String host, int port)
-        {
-            this.port = port;
-            this.host = host;
-            StartClient();
-        }
-
-        private void StartClient()
-        {
-            // Connect to a remote device.  
             try
             {
-                // Establish the remote endpoint for the socket.                  
-                IPHostEntry ipHostInfo = Dns.GetHostEntry(host);
-                IPAddress ipAddress = ipHostInfo.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
-
-                // Create a TCP/IP socket.  
-                client = new Socket(AddressFamily.InterNetwork,
-                    SocketType.Stream, ProtocolType.Tcp);
-
-                // Connect to the remote endpoint.  
-                client.BeginConnect(remoteEP,
-                    new AsyncCallback(ConnectCallback), client);
-                connectDone.WaitOne();   
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-        }
-
-        public String SendMSG(String msg)
-        {
-            try
-            {
-                // Send test data to the remote device.  
-                Send(client, msg);
-                sendDone.WaitOne();
-
-                /*
-                // Receive the response from the remote device.  
-                Receive(client);
-                receiveDone.WaitOne();
-
-                // Write the response to the console.  
-                return response;
-                */
-                return "wyslano";
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return "Error processing your request";
-            }
-        }
-            
-
-        public void Release()
-        {
-            try
-            {
-                // Release the socket.  
-                client.Shutdown(SocketShutdown.Both);
-                client.Close();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            
-        }
-
-        private static void ConnectCallback(IAsyncResult ar)
-        {
-            try
-            {
-                // Retrieve the socket from the state object.  
-                Socket client = (Socket)ar.AsyncState;
-
-                // Complete the connection.  
-                client.EndConnect(ar);
-
-                Console.WriteLine("Socket connected to {0}",
-                    client.RemoteEndPoint.ToString());
-
-                // Signal that the connection has been made.  
-                connectDone.Set();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-        }
-
-        private static void Receive(Socket client)
-        {
-            try
-            {
-                // Create the state object.  
-                StateObject state = new StateObject();
-                state.workSocket = client;
-
-                // Begin receiving the data from the remote device.  
-                client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                    new AsyncCallback(ReceiveCallback), state);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-        }
-
-        private static void ReceiveCallback(IAsyncResult ar)
-        {
-            try
-            {
-                // Retrieve the state object and the client socket   
-                // from the asynchronous state object.  
-                StateObject state = (StateObject)ar.AsyncState;
-                Socket client = state.workSocket;
-
-                // Read data from the remote device.  
-                int bytesRead = client.EndReceive(ar);
-
-                if (bytesRead > 0)
+                if (msgInputBox.Text == "")
                 {
-                    // There might be more data, so store the data received so far.  
-                    state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
-
-                    // Get the rest of the data.  
-                    client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                        new AsyncCallback(ReceiveCallback), state);
+                    throw new ArgumentNullException();
                 }
-                else
-                {
-                    // All the data has arrived; put it in response.  
-                    if (state.sb.Length > 1)
-                    {
-                        response = state.sb.ToString();
-                    }
-                    // Signal that all bytes have been received.  
-                    receiveDone.Set();
-                }
+                await client.SendMSG(msgInputBox.Text, consoleBox);
+                consoleBox.AppendText("Sent to the server:" + msgInputBox.Text);
+                consoleBox.AppendText(Environment.NewLine);
+                msgInputBox.Clear();
             }
-            catch (Exception e)
+            catch (ArgumentNullException)
             {
-                Console.WriteLine(e.ToString());
+                consoleBox.AppendText("ERROR:Nothing to send!");
+                consoleBox.AppendText(Environment.NewLine);
             }
-        }
-
-        private static void Send(Socket client, String data)
-        {
-            // Convert the string data to byte data using ASCII encoding.  
-            byte[] byteData = Encoding.ASCII.GetBytes(data);
-
-            // Begin sending the data to the remote device.  
-            client.BeginSend(byteData, 0, byteData.Length, 0,
-                new AsyncCallback(SendCallback), client);
-        }
-
-        private static void SendCallback(IAsyncResult ar)
-        {
-            try
+            catch (SocketException)
             {
-                // Retrieve the socket from the state object.  
-                Socket client = (Socket)ar.AsyncState;
-
-                // Complete sending the data to the remote device.  
-                int bytesSent = client.EndSend(ar);
-                Console.WriteLine("Sent {0} bytes to server.", bytesSent);
-
-                // Signal that all bytes have been sent.  
-                sendDone.Set();
+                consoleBox.AppendText("ERROR:Couldn't access socket!");
+                consoleBox.AppendText(Environment.NewLine);
             }
-            catch (Exception e)
+            catch (ObjectDisposedException)
             {
-                Console.WriteLine(e.ToString());
+                consoleBox.AppendText("ERROR:Socket has been closed!");
+                consoleBox.AppendText(Environment.NewLine);
+                connectButton.Enabled = true;
+                disconnectButton.Enabled = false;
+                sendButton.Enabled = false;
+                client.Release();
             }
+            catch (SecurityException)
+            {
+                consoleBox.AppendText("ERROR:No permissions to run this method!");
+                consoleBox.AppendText(Environment.NewLine);
+            }
+           
+            
         }
-    }
+    }  
+
+    
 }
