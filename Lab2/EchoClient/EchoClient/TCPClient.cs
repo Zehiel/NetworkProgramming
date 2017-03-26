@@ -50,23 +50,23 @@ namespace EchoClient
         private void StartClient()
         {
             // Connect to a remote device.  
-           
-                // Establish the remote endpoint for the socket.                  
-                IPHostEntry ipHostInfo = Dns.GetHostEntry(host);
-                IPAddress ipAddress = ipHostInfo.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
-                // Create a TCP/IP socket.  
-                client = new Socket(AddressFamily.InterNetwork,
-                    SocketType.Stream, ProtocolType.Tcp);
+            // Establish the remote endpoint for the socket.                  
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(host);
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
-                // Connect to the remote endpoint.  
-                client.BeginConnect(remoteEP,
-                    new AsyncCallback(ConnectCallback), client);
-                connectDone.WaitOne();
-                connectDone.Reset();
+            // Create a TCP/IP socket.  
+            client = new Socket(AddressFamily.InterNetwork,
+                SocketType.Stream, ProtocolType.Tcp);
 
-           
+            // Connect to the remote endpoint.  
+            client.BeginConnect(remoteEP,
+                new AsyncCallback(ConnectCallback), client);
+            connectDone.WaitOne();
+            connectDone.Reset();
+
+
         }
 
         public async Task SendMSG(String msg, System.Windows.Forms.TextBox consoleBox)
@@ -77,7 +77,7 @@ namespace EchoClient
                 Send(client, msg);
                 sendDone.WaitOne();
                 sendDone.Reset();
-               
+
                 // Receive the response from the remote device.  
                 Receive(client);
                 receiveDone.WaitOne();
@@ -87,22 +87,21 @@ namespace EchoClient
                 if (response.Length > 0)
                 {
                     consoleBox.AppendText("Recived from server:" + response);
-                    
-                   
+
+
                 }
                 else
                 {
                     consoleBox.AppendText("No response from server");
-                    
-                   
-                }                
-                
-                
-                //return "wyslano";
+
+                }
+
+
+
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());                
+                Console.WriteLine(e.ToString());
             }
         }
 
@@ -172,7 +171,7 @@ namespace EchoClient
                 Socket client = state.workSocket;
 
                 // Read data from the remote device.  
-                int bytesRead = client.EndReceive(ar);                
+                int bytesRead = client.EndReceive(ar);
                 if (bytesRead > 0)
                 {
                     // There might be more data, so store the data received so far.  
@@ -182,11 +181,11 @@ namespace EchoClient
                     if (state.sb.Length > 1)
                     {
                         response = state.sb.ToString();
-                        
+
                     }
                     // Signal that all bytes have been received.  
                     receiveDone.Set();
-                }               
+                }
             }
             catch (Exception e)
             {
