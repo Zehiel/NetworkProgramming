@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.consoleBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.clients_counter_display = new System.Windows.Forms.Label();
             this.listening_port_desc = new System.Windows.Forms.Label();
@@ -37,13 +37,13 @@
             this.stop_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // textBox1
+            // consoleBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 56);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(543, 387);
-            this.textBox1.TabIndex = 0;
+            this.consoleBox.Location = new System.Drawing.Point(12, 56);
+            this.consoleBox.Multiline = true;
+            this.consoleBox.Name = "consoleBox";
+            this.consoleBox.Size = new System.Drawing.Size(543, 387);
+            this.consoleBox.TabIndex = 0;
             // 
             // label1
             // 
@@ -109,7 +109,7 @@
             this.Controls.Add(this.listening_port_desc);
             this.Controls.Add(this.clients_counter_display);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.consoleBox);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -120,7 +120,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox consoleBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label clients_counter_display;
         private System.Windows.Forms.Label listening_port_desc;
