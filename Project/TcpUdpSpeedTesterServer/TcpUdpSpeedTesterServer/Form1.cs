@@ -38,17 +38,17 @@ namespace TcpUdpSpeedTesterServer
         private void updateData()
         {
             tcpSingleDataBox.Text = this.speedTester.singleDataSizeTCP.ToString();
-            tcpTotalSizeBox.Text = this.speedTester.totalTransferedDataSizeTCP.ToString();
-            tcpTotalTimeBox.Text = this.speedTester.totalTransmissionTimeTCP.ToString();
+            tcpTotalSizeBox.Text = (this.speedTester.totalTransferedDataSizeTCP).ToString();
+            tcpTotalTimeBox.Text = (this.speedTester.totalTransmissionTimeTCP/1000).ToString();
             tcpStatCalcTimeBox.Text = this.speedTester.statisticsCalculationTimeTCP.ToString();
-            tcpTransmissionSpeedBox.Text = this.speedTester.transmissionSpeedTCP.ToString();
+            tcpTransmissionSpeedBox.Text = (this.speedTester.transmissionSpeedTCP).ToString();
             tcpLostDataBox.Text = this.speedTester.lostDataTCP.ToString();
             tcpTransErrorBox.Text = this.speedTester.transmissionErrorTCP.ToString();
             udpSingleDataBox.Text = this.speedTester.singleDataSizeUDP.ToString();
-            udpTotalSizeBox.Text = this.speedTester.totalTransferedDataSizeUDP.ToString();
-            udpTotalTimeBox.Text = this.speedTester.totalTransmissionTimeUDP.ToString();
+            udpTotalSizeBox.Text = (this.speedTester.totalTransferedDataSizeUDP).ToString();
+            udpTotalTimeBox.Text = (this.speedTester.totalTransmissionTimeUDP/1000).ToString();
             udpStatCalcTimeBox.Text = this.speedTester.statisticsCalculationTimeUDP.ToString();
-            udpTransmissionSpeedBox.Text = this.speedTester.transmissionSpeedUDP.ToString();
+            udpTransmissionSpeedBox.Text = (this.speedTester.transmissionSpeedUDP).ToString();
             udpLostDataBox.Text = this.speedTester.lostDataUDP.ToString();
             udpTransErrorBox.Text = this.speedTester.transmissionErrorUDP.ToString();
 

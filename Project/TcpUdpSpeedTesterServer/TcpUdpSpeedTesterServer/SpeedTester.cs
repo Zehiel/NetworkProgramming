@@ -20,15 +20,15 @@ namespace TcpUdpSpeedTesterServer
         public int singleDataSizeTCP = 0;
         public int totalTransferedDataSizeTCP = 0;
         public long totalTransmissionTimeTCP = 0;
-        public int statisticsCalculationTimeTCP = 0;
-        public int transmissionSpeedTCP = 0;
+        public long statisticsCalculationTimeTCP = 0;
+        public long transmissionSpeedTCP = 0;
         public int lostDataTCP = 0;
         public int transmissionErrorTCP = 0;
         public int singleDataSizeUDP = 0;
         public int totalTransferedDataSizeUDP = 0;
-        public double totalTransmissionTimeUDP = 0.0;
-        public double statisticsCalculationTimeUDP = 0.0;
-        public int transmissionSpeedUDP = 0;
+        public long totalTransmissionTimeUDP = 0;
+        public long statisticsCalculationTimeUDP = 0;
+        public long transmissionSpeedUDP = 0;
         public int lostDataUDP = 0;
         public int transmissionErrorUDP = 0;
 
@@ -38,8 +38,8 @@ namespace TcpUdpSpeedTesterServer
             IPHostEntry localHostEntry = Dns.GetHostByName(Dns.GetHostName());
             Console.WriteLine(localHostEntry.AddressList[0]);
             Console.WriteLine(localHostEntry.AddressList[1]);
-            // Console.WriteLine(localHostEntry.AddressList[2]);
-            IP = localHostEntry.AddressList[1];
+            Console.WriteLine(localHostEntry.AddressList[2]);
+            IP = localHostEntry.AddressList[2];
             // IP = IPAddress.Parse("127.0.0.1");     
         }
 
@@ -94,15 +94,15 @@ namespace TcpUdpSpeedTesterServer
                             stopWatchTCP.Start();
                             int bytesReceived = tcpSocket.Receive(buffer, buffer.Length, 0);
                             stopWatchTCP.Stop();
-                            Console.WriteLine("TCP data transfer finished");
+                            //Console.WriteLine("TCP data transfer finished");
                             int speed = Convert.ToInt32((bytesReceived * 8) / (stopWatchTCP.ElapsedMilliseconds + 0.1));
-                            long time = stopWatchTCP.ElapsedMilliseconds;
-                            int sizeKb = (bytesReceived * 8) / 1024;
+                            long time = stopWatchTCP.ElapsedMilliseconds + 1;
+                            int sizeKb = (bytesReceived * 8) /1024;
                             totalTransferedDataSizeTCP += sizeKb;
-                            totalTransmissionTimeTCP += time /1000;
-                            transmissionSpeedTCP = (int)totalTransmissionTimeTCP / totalTransferedDataSizeTCP;
-                            Console.WriteLine("TCP Thread: " + sizeKb + "kb of data recived in time of: " + time + "sek with speed of " + speed + "kb/sec");
-                            if(bytesReceived == 0)
+                            totalTransmissionTimeTCP += time;
+                            transmissionSpeedTCP = (long)(totalTransferedDataSizeTCP / (float)(totalTransmissionTimeTCP / 1000));
+                            //Console.WriteLine("TCP Thread: " + sizeKb + "kb of data recived in time of: " + time + "sek with speed of " + speed + "kb/sec");
+                            if (bytesReceived == 0)
                             {
                                 break;
                             }
@@ -129,7 +129,6 @@ namespace TcpUdpSpeedTesterServer
                 IPEndPoint localIpEndPoint = new IPEndPoint(IP, Port);
                 udpSocket.Bind(localIpEndPoint);
                 Stopwatch stopWatchUDP = new Stopwatch();
-                long totalTime = 0;
 
                 while (true)
                 {
@@ -142,6 +141,7 @@ namespace TcpUdpSpeedTesterServer
                     int initBytesReceived = udpSocket.ReceiveFrom(initBuffer, ref remoteEP);
                     String initialMsg = System.Text.Encoding.ASCII.GetString(initBuffer);
                     int bufforSize = Convert.ToInt32(initialMsg.Substring(5, initialMsg.Length-5));
+                    singleDataSizeUDP = bufforSize;
                     Byte[] buffer = new byte[bufforSize];
 
                     Console.WriteLine("Reciving data from UDP client");
@@ -153,13 +153,15 @@ namespace TcpUdpSpeedTesterServer
                             stopWatchUDP.Start();
                             int bytesReceived = udpSocket.ReceiveFrom(buffer, ref remoteEP);
                             stopWatchUDP.Stop();
-                            Console.WriteLine("UDP data transfer finished");
+                            //Console.WriteLine("UDP data transfer finished");
                             int speed = Convert.ToInt32((bytesReceived * 8) / (stopWatchUDP.ElapsedMilliseconds + 0.1));
-                            int time = Convert.ToInt32(stopWatchUDP.ElapsedMilliseconds / 1000);
-                            totalTime += stopWatchUDP.ElapsedMilliseconds / 1000;
+                            long time = stopWatchUDP.ElapsedMilliseconds + 1;
                             int sizeKb = (bytesReceived * 8) / 1024;
-                            Console.WriteLine("UDP Thread: " + sizeKb + "kb of data recived in time of: " + time + "sek with speed of " + speed + "kb/sec");
-                            Console.WriteLine("UDP Socket total time elapsed: " + totalTime);
+                            totalTransferedDataSizeUDP += sizeKb;
+                            totalTransmissionTimeUDP += time;
+                            transmissionSpeedUDP = (long)(totalTransferedDataSizeUDP / (float)(totalTransmissionTimeUDP/1000));
+                            //Console.WriteLine("UDP Thread: " + sizeKb + "kb of data recived in time of: " + time + "sek with speed of " + speed + "kb/sec");
+                            //Console.WriteLine("UDP Socket total time elapsed: " + totalTime);
                             String lastMsg = System.Text.Encoding.ASCII.GetString(buffer);
                             if (lastMsg.Contains("FINE")){
                                 break;
