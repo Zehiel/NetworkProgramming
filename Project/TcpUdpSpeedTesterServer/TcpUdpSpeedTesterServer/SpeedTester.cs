@@ -19,8 +19,8 @@ namespace TcpUdpSpeedTesterServer
         private Thread tcpThread, udpThread;
         public int singleDataSizeTCP = 0;
         public int totalTransferedDataSizeTCP = 0;
-        public double totalTransmissionTimeTCP = 0.0;
-        public double statisticsCalculationTimeTCP = 0.0;
+        public long totalTransmissionTimeTCP = 0;
+        public int statisticsCalculationTimeTCP = 0;
         public int transmissionSpeedTCP = 0;
         public int lostDataTCP = 0;
         public int transmissionErrorTCP = 0;
@@ -82,8 +82,8 @@ namespace TcpUdpSpeedTesterServer
                     Byte[] initBuffer = new byte[512];
                     int initBytesReceived = tcpSocket.Receive(initBuffer, initBuffer.Length, 0);
                     String initialMsg = System.Text.Encoding.ASCII.GetString(initBuffer);
-
                     int bufforSize = Convert.ToInt32(initialMsg.Substring(5, initialMsg.Length-5));
+                    singleDataSizeTCP = bufforSize;
                     Byte[] buffer = new byte[bufforSize];
                     Console.WriteLine("Reciving data from TCP client");
                     while (true)
@@ -96,8 +96,11 @@ namespace TcpUdpSpeedTesterServer
                             stopWatchTCP.Stop();
                             Console.WriteLine("TCP data transfer finished");
                             int speed = Convert.ToInt32((bytesReceived * 8) / (stopWatchTCP.ElapsedMilliseconds + 0.1));
-                            int time = Convert.ToInt32(stopWatchTCP.ElapsedMilliseconds / 1000);
+                            long time = stopWatchTCP.ElapsedMilliseconds;
                             int sizeKb = (bytesReceived * 8) / 1024;
+                            totalTransferedDataSizeTCP += sizeKb;
+                            totalTransmissionTimeTCP += time /1000;
+                            transmissionSpeedTCP = (int)totalTransmissionTimeTCP / totalTransferedDataSizeTCP;
                             Console.WriteLine("TCP Thread: " + sizeKb + "kb of data recived in time of: " + time + "sek with speed of " + speed + "kb/sec");
                             if(bytesReceived == 0)
                             {

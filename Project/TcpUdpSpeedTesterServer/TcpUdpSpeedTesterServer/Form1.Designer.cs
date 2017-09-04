@@ -43,7 +43,7 @@
             this.udpStatCalcTimeBox = new System.Windows.Forms.TextBox();
             this.udpTotalTimeBox = new System.Windows.Forms.TextBox();
             this.udpTotalSizeBox = new System.Windows.Forms.TextBox();
-            this.udpSingleDataSizeBox = new System.Windows.Forms.TextBox();
+            this.udpSingleDataBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tcpTransErrorBox = new System.Windows.Forms.TextBox();
             this.tcpLostDataBox = new System.Windows.Forms.TextBox();
@@ -51,10 +51,10 @@
             this.tcpStatCalcTimeBox = new System.Windows.Forms.TextBox();
             this.tcpTotalTimeBox = new System.Windows.Forms.TextBox();
             this.tcpTotalSizeBox = new System.Windows.Forms.TextBox();
-            this.tcpSingleDataBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.startButton = new System.Windows.Forms.Button();
             this.portBox = new System.Windows.Forms.TextBox();
+            this.tcpSingleDataBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -158,7 +158,7 @@
             this.groupBox3.Controls.Add(this.udpStatCalcTimeBox);
             this.groupBox3.Controls.Add(this.udpTotalTimeBox);
             this.groupBox3.Controls.Add(this.udpTotalSizeBox);
-            this.groupBox3.Controls.Add(this.udpSingleDataSizeBox);
+            this.groupBox3.Controls.Add(this.udpSingleDataBox);
             this.groupBox3.Location = new System.Drawing.Point(448, 25);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(135, 277);
@@ -208,12 +208,12 @@
             this.udpTotalSizeBox.Size = new System.Drawing.Size(123, 23);
             this.udpTotalSizeBox.TabIndex = 8;
             // 
-            // udpSingleDataSizeBox
+            // udpSingleDataBox
             // 
-            this.udpSingleDataSizeBox.Location = new System.Drawing.Point(6, 36);
-            this.udpSingleDataSizeBox.Name = "udpSingleDataSizeBox";
-            this.udpSingleDataSizeBox.Size = new System.Drawing.Size(123, 23);
-            this.udpSingleDataSizeBox.TabIndex = 7;
+            this.udpSingleDataBox.Location = new System.Drawing.Point(6, 36);
+            this.udpSingleDataBox.Name = "udpSingleDataBox";
+            this.udpSingleDataBox.Size = new System.Drawing.Size(123, 23);
+            this.udpSingleDataBox.TabIndex = 7;
             // 
             // groupBox2
             // 
@@ -275,13 +275,6 @@
             this.tcpTotalSizeBox.Size = new System.Drawing.Size(123, 23);
             this.tcpTotalSizeBox.TabIndex = 1;
             // 
-            // tcpSingleDataBox
-            // 
-            this.tcpSingleDataBox.Location = new System.Drawing.Point(6, 36);
-            this.tcpSingleDataBox.Name = "tcpSingleDataBox";
-            this.tcpSingleDataBox.Size = new System.Drawing.Size(123, 23);
-            this.tcpSingleDataBox.TabIndex = 0;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -308,6 +301,13 @@
             this.portBox.Size = new System.Drawing.Size(46, 20);
             this.portBox.TabIndex = 3;
             this.portBox.Text = "7777";
+            // 
+            // tcpSingleDataBox
+            // 
+            this.tcpSingleDataBox.Location = new System.Drawing.Point(6, 36);
+            this.tcpSingleDataBox.Name = "tcpSingleDataBox";
+            this.tcpSingleDataBox.Size = new System.Drawing.Size(123, 23);
+            this.tcpSingleDataBox.TabIndex = 0;
             // 
             // Form1
             // 
@@ -352,7 +352,7 @@
         private System.Windows.Forms.TextBox udpStatCalcTimeBox;
         private System.Windows.Forms.TextBox udpTotalTimeBox;
         private System.Windows.Forms.TextBox udpTotalSizeBox;
-        private System.Windows.Forms.TextBox udpSingleDataSizeBox;
+        private System.Windows.Forms.TextBox udpSingleDataBox;
         private System.Windows.Forms.TextBox tcpTransErrorBox;
         private System.Windows.Forms.TextBox tcpLostDataBox;
         private System.Windows.Forms.TextBox tcpTransmissionSpeedBox;
