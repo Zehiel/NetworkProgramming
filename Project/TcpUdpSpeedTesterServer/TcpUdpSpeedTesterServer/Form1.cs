@@ -13,6 +13,7 @@ namespace TcpUdpSpeedTesterServer
     public partial class Form1 : Form
     {
         SpeedTester speedTester = new SpeedTester();
+        private Boolean speedTesterStatus = false;
 
         private Timer timer1;
         public void InitTimer()
@@ -56,7 +57,23 @@ namespace TcpUdpSpeedTesterServer
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            this.speedTester.startListening(Convert.ToInt32(portBox.Text));
+            
+           
+            if (!this.speedTesterStatus)
+            {
+               
+                if (this.speedTester.startListening(portBox.Text))
+                {
+                    this.speedTesterStatus = true;
+                    startButton.Text = "Stop listening";
+                }
+            }
+            else
+            {
+                this.speedTesterStatus = false;
+                startButton.Text = "Start listening";
+                this.speedTester.stopListening();
+            }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)

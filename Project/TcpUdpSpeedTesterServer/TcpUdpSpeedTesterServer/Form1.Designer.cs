@@ -51,10 +51,10 @@
             this.tcpStatCalcTimeBox = new System.Windows.Forms.TextBox();
             this.tcpTotalTimeBox = new System.Windows.Forms.TextBox();
             this.tcpTotalSizeBox = new System.Windows.Forms.TextBox();
+            this.tcpSingleDataBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.startButton = new System.Windows.Forms.Button();
             this.portBox = new System.Windows.Forms.TextBox();
-            this.tcpSingleDataBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -168,6 +168,7 @@
             // 
             // udpTransErrorBox
             // 
+            this.udpTransErrorBox.Enabled = false;
             this.udpTransErrorBox.Location = new System.Drawing.Point(6, 238);
             this.udpTransErrorBox.Name = "udpTransErrorBox";
             this.udpTransErrorBox.Size = new System.Drawing.Size(123, 23);
@@ -175,6 +176,7 @@
             // 
             // udpLostDataBox
             // 
+            this.udpLostDataBox.Enabled = false;
             this.udpLostDataBox.Location = new System.Drawing.Point(6, 204);
             this.udpLostDataBox.Name = "udpLostDataBox";
             this.udpLostDataBox.Size = new System.Drawing.Size(123, 23);
@@ -182,6 +184,7 @@
             // 
             // udpTransmissionSpeedBox
             // 
+            this.udpTransmissionSpeedBox.Enabled = false;
             this.udpTransmissionSpeedBox.Location = new System.Drawing.Point(6, 172);
             this.udpTransmissionSpeedBox.Name = "udpTransmissionSpeedBox";
             this.udpTransmissionSpeedBox.Size = new System.Drawing.Size(123, 23);
@@ -189,6 +192,7 @@
             // 
             // udpStatCalcTimeBox
             // 
+            this.udpStatCalcTimeBox.Enabled = false;
             this.udpStatCalcTimeBox.Location = new System.Drawing.Point(6, 141);
             this.udpStatCalcTimeBox.Name = "udpStatCalcTimeBox";
             this.udpStatCalcTimeBox.Size = new System.Drawing.Size(123, 23);
@@ -196,6 +200,7 @@
             // 
             // udpTotalTimeBox
             // 
+            this.udpTotalTimeBox.Enabled = false;
             this.udpTotalTimeBox.Location = new System.Drawing.Point(6, 107);
             this.udpTotalTimeBox.Name = "udpTotalTimeBox";
             this.udpTotalTimeBox.Size = new System.Drawing.Size(123, 23);
@@ -203,6 +208,7 @@
             // 
             // udpTotalSizeBox
             // 
+            this.udpTotalSizeBox.Enabled = false;
             this.udpTotalSizeBox.Location = new System.Drawing.Point(6, 73);
             this.udpTotalSizeBox.Name = "udpTotalSizeBox";
             this.udpTotalSizeBox.Size = new System.Drawing.Size(123, 23);
@@ -210,6 +216,7 @@
             // 
             // udpSingleDataBox
             // 
+            this.udpSingleDataBox.Enabled = false;
             this.udpSingleDataBox.Location = new System.Drawing.Point(6, 36);
             this.udpSingleDataBox.Name = "udpSingleDataBox";
             this.udpSingleDataBox.Size = new System.Drawing.Size(123, 23);
@@ -235,6 +242,7 @@
             // 
             // tcpTransErrorBox
             // 
+            this.tcpTransErrorBox.Enabled = false;
             this.tcpTransErrorBox.Location = new System.Drawing.Point(6, 238);
             this.tcpTransErrorBox.Name = "tcpTransErrorBox";
             this.tcpTransErrorBox.Size = new System.Drawing.Size(123, 23);
@@ -242,6 +250,7 @@
             // 
             // tcpLostDataBox
             // 
+            this.tcpLostDataBox.Enabled = false;
             this.tcpLostDataBox.Location = new System.Drawing.Point(6, 204);
             this.tcpLostDataBox.Name = "tcpLostDataBox";
             this.tcpLostDataBox.Size = new System.Drawing.Size(123, 23);
@@ -249,6 +258,7 @@
             // 
             // tcpTransmissionSpeedBox
             // 
+            this.tcpTransmissionSpeedBox.Enabled = false;
             this.tcpTransmissionSpeedBox.Location = new System.Drawing.Point(6, 172);
             this.tcpTransmissionSpeedBox.Name = "tcpTransmissionSpeedBox";
             this.tcpTransmissionSpeedBox.Size = new System.Drawing.Size(123, 23);
@@ -256,6 +266,7 @@
             // 
             // tcpStatCalcTimeBox
             // 
+            this.tcpStatCalcTimeBox.Enabled = false;
             this.tcpStatCalcTimeBox.Location = new System.Drawing.Point(6, 141);
             this.tcpStatCalcTimeBox.Name = "tcpStatCalcTimeBox";
             this.tcpStatCalcTimeBox.Size = new System.Drawing.Size(123, 23);
@@ -263,6 +274,7 @@
             // 
             // tcpTotalTimeBox
             // 
+            this.tcpTotalTimeBox.Enabled = false;
             this.tcpTotalTimeBox.Location = new System.Drawing.Point(6, 107);
             this.tcpTotalTimeBox.Name = "tcpTotalTimeBox";
             this.tcpTotalTimeBox.Size = new System.Drawing.Size(123, 23);
@@ -270,10 +282,19 @@
             // 
             // tcpTotalSizeBox
             // 
+            this.tcpTotalSizeBox.Enabled = false;
             this.tcpTotalSizeBox.Location = new System.Drawing.Point(6, 73);
             this.tcpTotalSizeBox.Name = "tcpTotalSizeBox";
             this.tcpTotalSizeBox.Size = new System.Drawing.Size(123, 23);
             this.tcpTotalSizeBox.TabIndex = 1;
+            // 
+            // tcpSingleDataBox
+            // 
+            this.tcpSingleDataBox.Enabled = false;
+            this.tcpSingleDataBox.Location = new System.Drawing.Point(6, 36);
+            this.tcpSingleDataBox.Name = "tcpSingleDataBox";
+            this.tcpSingleDataBox.Size = new System.Drawing.Size(123, 23);
+            this.tcpSingleDataBox.TabIndex = 0;
             // 
             // label1
             // 
@@ -301,13 +322,6 @@
             this.portBox.Size = new System.Drawing.Size(46, 20);
             this.portBox.TabIndex = 3;
             this.portBox.Text = "7777";
-            // 
-            // tcpSingleDataBox
-            // 
-            this.tcpSingleDataBox.Location = new System.Drawing.Point(6, 36);
-            this.tcpSingleDataBox.Name = "tcpSingleDataBox";
-            this.tcpSingleDataBox.Size = new System.Drawing.Size(123, 23);
-            this.tcpSingleDataBox.TabIndex = 0;
             // 
             // Form1
             // 
